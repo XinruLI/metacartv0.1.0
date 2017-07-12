@@ -1,0 +1,15 @@
+Package: metacartv0
+Type: Package
+Title: meta-CART: a flexible approach to identify moderators in meta-analysis
+Version: 0.1.0
+Date: 2017-07-05
+Author: Author: Xinru Li [aut, cre], Elise Dusseldorp [aut, cph], Jacqueline Meulman [ctb]
+Maintainer: Xinru Li <x.li@math.leidenuniv.nl>
+License: GPL-2|GPL-3
+LazyData: TRUE
+Description: The package can be used to fit meta-trees to meta-analytic
+    data for moderator identification. 
+Encoding: UTF-8
+Depends: R (>= 3.0.2), rpart, stats, methods, rpart.plot
+URL: http://www.elisedusseldorp.nl/pdf/Dusseldorp2014_HPMetaCART.pdf
+RoxygenNote: 6.0.1
