@@ -69,9 +69,8 @@ treepruner <- function(tree, c, ...){
 #' @return ci.lb: The lower bounds of the confidence intervals
 #' @return ci.ub: The upper bounds of the confidence intervals
 #' @return call: The matched call
-#' @examples data(datphase1)
-#' set.seed(1555)
-#' FEtree <- FEmrt(g ~ T1 + T2+ T4 +T25, vi = vark, data = datphase1, c=0.5)
+#' @examples data(dat.BCT2015)
+#' FEtree <- FEmrt(g ~ T1 + T2+ T4 +T25, vi = vi, data = dat.BCT2015, c=0.5)
 #' print(FEtree)
 #' summary(FEtree)
 #' plot(FEtree)
@@ -106,6 +105,7 @@ FEmrt <- function(formula, data, vi, subset, c = 1,
   m$wts.metacart <- c(t(1/m["(vi)"]))
   tree <- rpart(formula, weights = wts.metacart, data = m, control = control, ...)
   prunedtree <- treepruner(tree, c*sqrt(mean(m$wts.metacart)))
+  tree$cptable[ ,5] <- tree$cptable[ ,5]*sqrt(mean(m$wts.metacart))
   if (length(unique(prunedtree$where)) < 2) {
     warning("no moderator effect was detected")
     y <- model.response(m)
@@ -123,7 +123,7 @@ FEmrt <- function(formula, data, vi, subset, c = 1,
 
     res <- list(n = n ,  Q = Q,
                 df = df, pval.Q = pval.Q, g = g, se = se, zval = zval,
-                pval = pval, ci.lb = ci.lb, ci.ub = ci.ub, call = Call)
+                pval = pval, ci.lb = ci.lb, ci.ub = ci.ub, call = Call, cv.res = tree$cptable)
   } else {
     y <- model.response(m)
     v <- c(t(m["(vi)"]))
@@ -142,7 +142,7 @@ FEmrt <- function(formula, data, vi, subset, c = 1,
     mod.names <- unique(prunedtree$frame$var[prunedtree$frame$var != "<leaf>"])
     res <- list(tree =  prunedtree, n = n, moderators =  mod.names, Qb = Qb, df = df, pval.Qb = pval.Qb,
                 Qw = Qw, g = g, se = se, zval =zval, pval = pval, ci.lb = ci.lb,
-                ci.ub = ci.ub, call = Call)
+                ci.ub = ci.ub, call = Call, cv.res = tree$cptable)
 
 
   }

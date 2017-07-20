@@ -22,19 +22,37 @@
 
 #' A subset of meta-analytic data set in Michie et al. (2015)
 #'
-#' Data are heal psychological interventions that used at least one of the
-#' motivation-enchancing behavior change techniques T1, T2, T4, and T25.
+#' The complete data consist of 101 studies reporting 122 interventions targeted at physical activity and healthy eating.
+#' In this subset of the data, the interventions that include at least one
+#' of the motivation-enhancing BCTs were selected (N = 106).
 #'
-#' @name  datphase1
+#' @name  dat.BCT2015
 #' @docType data
 #'
-#' @usage data(datphase1)
+#' @usage data(dat.BCT2015)
 #'
 #' @keywords data
-#' @format A data frame of 106 studies with 26 moderators
+#' @format A data frame of 106 interventions with five motivation-enhancing BCTs
 #' \itemize{
-#'   \item g: The effect size of each study
-#'   \item vark: The sampling variance of each study
-#'   \item T1 to T26: moderators. Behavior change techniques.
+#'   \item study: The name of the intervention.
+#'   \item g: The effect size of each intervention.
+#'   \item vi: The sampling variance of each study.
+#'   \item T1: Indicating whether the BCT1 "Provide information about
+#'   behavior-health link" was used by the intervention. "1" for used
+#'   and "0" for not used.
+#'   \item T2: Indicating whether the BCT2 "Provide information on consequences"
+#'    was used by the intervention. "1" for used
+#'   and "0" for not used.
+#'   \item T3: Indicating whether the BCT3 "Provide information about other's approval"
+#'    was used by the intervention. "1" for used
+#'   and "0" for not used.
+#'   \item T4: Indicating whether the BCT4 "Prompt intention formation"
+#'    was used by the intervention. "1" for used
+#'   and "0" for not used.
+#'   \item T25: Indicating whether the BCT25 " Motivational interviewing"
+#'    was used by the intervention. "1" for used
+#'   and "0" for not used.
+#'
+#'
 #'   }
-"datphase1"
+"dat.BCT2015"

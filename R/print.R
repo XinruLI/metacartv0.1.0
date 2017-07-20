@@ -20,6 +20,8 @@ print.FEmrt<- function(x, ...){
     print(x$call)
     cat("\n")
     cat("No moderator effect was detected" )
+    cat("\n")
+    cat("use summary() to see the meta-analysis results")
 
 
   } else {
@@ -32,5 +34,53 @@ print.FEmrt<- function(x, ...){
     cat("A tree with ", length(x$n), " terminal nodes was detected", sep="" )
     cat("\n")
     cat("The moderators are ", paste(as.character(x$moderators), collapse = ", "), sep = "")
+    cat("\n")
+    cat("use summary() and plot() to see the moderator analysis results and the tree structure")
+    cat("\n")
+    print(x$tree)
+  }
+}
+
+
+#' Print function for REmrt
+#'
+#' Print the results of a REmrt object
+#'
+#' @param x fitted tree of class \code{FEmrt}.
+#' @param \dots additional arguments to be passed.
+#' @details
+#' The function returns the objects concerning the analysis results.
+#'
+#' @examples data(SimData)
+#' test <- REmrt(efk~m1+m2+m3+m4+m5, vark, data=SimData, c= 0.5)
+#' print(test)
+#' @export
+print.REmrt<- function(x, ...){
+  if (length(x$n) < 2) {
+    cat("\n")
+    cat("Random Effectss Meta-Tree (K = ", sum(x$n), " studies); ",
+        sep = "")
+    cat("\n")
+    print(x$call)
+    cat("\n")
+    cat("No moderator effect was detected" )
+    cat("\n")
+    cat("use summary() to see the meta-analysis results")
+
+
+  } else {
+    cat("\n")
+    cat("Random Effectss Meta-tree (K = ", sum(x$n), " studies); ",
+        sep = "")
+    cat("\n")
+    print(x$call)
+    cat("\n")
+    cat("A tree with ", length(x$n), " terminal nodes was detected", sep="" )
+    cat("\n")
+    cat("The moderators are ", paste(as.character(x$moderators), collapse = ", "), sep = "")
+    cat("\n")
+    cat("use summary() and plot() to see the moderator analysis results and the tree structure")
+    cat("\n")
+    print(x$tree)
   }
 }
