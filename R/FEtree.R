@@ -30,55 +30,56 @@ treepruner <- function(tree, c, ...){
 
 #' Fixed effect meta-tree
 #'
-#' A function to fit FE meta-trees to meta-analytic data.
-#' The model is assuming fixed effect within subgroups and between subgroups.
-#' The tree growing process is equivalent to the approach described in Li et al.(2017) using fixed effect weights in rpart (Therneau, Atkinson & Ripley)
+#' A function to fit fixed effect meta-trees to meta-analytic data.
+#' The model is assuming a fixed effect within subgroups and between subgroups.
+#' The tree growing process is equivalent to the approach described in Li et al.(2017) using fixed effect weights in the function \pkg{rpart()} developed by Therneau, Atkinson & Ripley (2014).
 #' @name FEmrt
 #' @aliases FEmrt
 #' @inheritParams rpart
-#' @param formula A formula, with a response variable (usually the effect size) and the interested moderators but no interaction terms.
-#' @param vi The column name of the sampling variance in the data set.
-#' @param data A data frame of a meta-analytic data set, including the effect sizes, sampling variance, and the potential moderators.
+#' @param formula A formula, with a response variable (usually the effect size) and the potential moderator variables but no interaction terms.
+#' @param vi sampling variance of the effect size.
+#' @param data A data frame of a meta-analytic data set, including the study effect sizes, sampling variance, and the potential moderators.
 #' @param subset optional expression that selects only a subset of the rows of the data.
-#' @param c A non-negative scalar.The pruning parameter to prune the initial tree by "c-standard-error" rule.
-#' @param control the rpart.control object that passes to rpart
-#' @param ... Additional arguments passed to rpart().
-#' @return If no moderator effect is detected, the function will return a list including the following objects:
+#' @param c A non-negative scalar.The pruning parameter to prune the initial tree by the "c*standard-error" rule.
+#' @param control the control object (similar to rpart.control from the rpart package) that is used in the tree algorithm
+#' @param ... Additional arguments passed to the tree growing algorithm based on \pkg{rpart}.
+#' @return If no moderator effect is detected, the function will return a \code{FEmrt} object including the following components:
 #' @return n: The total number of the studies
-#' @return Q: The Q-statistics for the heterogeneity test
-#' @return df: The degree of freedoms of the heterogeneity test
-#' @return pval.Q: The p-value for the heterogeneity test
-#' @return g: The overall effect size for all studies
-#' @return se: The standard error of the overall effect size
-#' @return zval: The test statistic of the overall effect sie
-#' @return pval: The p-value for the test statistic of the overall effect size
-#' @return ci.lb: The lower bound of the confidence interval for the overall effect size
-#' @return ci.ub: The upper bound of the confidence interval for the overall effect size
+#' @return Q: The Q-statistic of the heterogeneity test
+#' @return df: The degrees of freedom of the heterogeneity test
+#' @return pval.Q: The p-value of the heterogeneity test
+#' @return g: The summary effect size for all studies
+#' @return se: The standard error of the summary effect size
+#' @return zval: The test statistic of the summary effect size
+#' @return pval: The p-value of the test statistic of the summary effect size
+#' @return ci.lb: The lower bound of the confidence interval for the summary effect size
+#' @return ci.ub: The upper bound of the confidence interval for the summary effect size
 #' @return call: The matched call
-#' @return If  moderator effect(s) is(are) detected, the function will return a list including the following objects:
-#' @return tree: An rpart object. The pruned tree that represents the moderator effects and interaction effects between them.
+#' @return If  (a) moderator effect(s) is(are) detected, the function will return a \code{FEmrt} object including the following components:
+#' @return tree: The pruned tree that represents the moderator effect(s) and interaction effect(s) between them.
 #' @return n: The number of the studies in each subgroup
 #' @return Qb: The between-subgroups Q-statistic
 #' @return df: The degree of freedoms of the between-subgroups Q test
 #' @return pval.Qb: The p-value of the between-subgroups Q test
 #' @return Qw: The within-subgroup Q-statistic in each subgroup
-#' @return g: The subgroup overall effect sizes, based on Hedges'g
-#' @return se: The standard errors of subgroup overall effect sizes
-#' @return zval: The test statistics of the subgroup overall effect sizes
-#' @return pval: The p-value for the test statistics of the subgroup overall effect sizes
-#' @return ci.lb: The lower bounds of the confidence intervals
-#' @return ci.ub: The upper bounds of the confidence intervals
+#' @return g: The subgroup summary effect size, based on Hedges'g
+#' @return se: The standard error of the subgroup summary effect size
+#' @return zval: The test statistic of the subgroup summary effect size
+#' @return pval: The p-value for the test statistics of the subgroup summary effect size
+#' @return ci.lb: The lower bound of the confidence interval
+#' @return ci.ub: The upper bound of the confidence interval
 #' @return call: The matched call
-#' @examples data(dat.BCT2015)
-#' FEtree <- FEmrt(g ~ T1 + T2+ T4 +T25, vi = vi, data = dat.BCT2015, c=0.5)
+#' @examples data(dat.BCT2009)
+#' FEtree <- FEmrt(g ~ T1 + T2+ T4 +T25, vi = vi, data = dat.BCT2009, c=0.5)
 #' print(FEtree)
 #' summary(FEtree)
 #' plot(FEtree)
 #' @references Dusseldorp, E., van Genugten, L., van Buuren, S., Verheijden, M. W., & van Empe-
-#' len, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from meta-cart analysis. Health Psychology, 33 (12), 1530-1540. doi:
+#' len, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from meta-cart analysis.  \emph{Health Psychology, 33 (12)}, 1530-1540. doi:
 #'      10.1037/hea0000018.
-#' @references Li, X., Dusseldorp, E., & Meulman, J. J. (2016). Meta-cart: A tool to identify interactions
-#' between moderators in meta-analysis. British Journal of Mathematical and Statistical Psychology. In press. doi: 10.1111/bmsp.12088.
+#' @references Li, X., Dusseldorp, E., & Meulman, J. J. (2017). Meta-CART: A tool to identify interactions between moderators in meta???analysis. \emph{ British Journal of Mathematical and Statistical Psychology, 70(1)}, 118-136. doi: 10.1111/bmsp.12088.
+#' Therneau, T., Atkinson, B., & Ripley, B. (2014) rpart: Recursive partitioning and regression trees. R package version, 4-1.
+#' @seealso  \code{\link{summary.FEmrt}}, \code{\link{plot.FEmrt}}, \code{\link{rpart}},\code{\link{rpart.control}}
 #' @importFrom rpart rpart.control
 #' @importFrom rpart rpart
 #' @importFrom rpart prune.rpart

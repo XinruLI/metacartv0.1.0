@@ -8,48 +8,48 @@ FEmrt(formula, data, vi, subset, c = 1, control = rpart.control(xval = 10,
   minbucket = 5, minsplit = 10, cp = 1e-04), ...)
 }
 \arguments{
-\item{formula}{A formula, with a response variable (usually the effect size) and the interested moderators but no interaction terms.}
+\item{formula}{A formula, with a response variable (usually the effect size) and the potential moderator variables but no interaction terms.}
 
-\item{data}{A data frame of a meta-analytic data set, including the effect sizes, sampling variance, and the potential moderators.}
+\item{data}{A data frame of a meta-analytic data set, including the study effect sizes, sampling variance, and the potential moderators.}
 
-\item{vi}{The column name of the sampling variance in the data set.}
+\item{vi}{sampling variance of the effect size.}
 
 \item{subset}{optional expression that selects only a subset of the rows of the data.}
 
-\item{c}{A non-negative scalar.The pruning parameter to prune the initial tree by "c-standard-error" rule.}
+\item{c}{A non-negative scalar.The pruning parameter to prune the initial tree by the "c*standard-error" rule.}
 
-\item{control}{the rpart.control object that passes to rpart}
+\item{control}{the control object (similar to rpart.control from the rpart package) that is used in the tree algorithm}
 
-\item{...}{Additional arguments passed to rpart().}
+\item{...}{Additional arguments passed to the tree growing algorithm based on \pkg{rpart}.}
 }
 \value{
-If no moderator effect is detected, the function will return a list including the following objects:
+If no moderator effect is detected, the function will return a \code{FEmrt} object including the following components:
 
 n: The total number of the studies
 
-Q: The Q-statistics for the heterogeneity test
+Q: The Q-statistic of the heterogeneity test
 
-df: The degree of freedoms of the heterogeneity test
+df: The degrees of freedom of the heterogeneity test
 
-pval.Q: The p-value for the heterogeneity test
+pval.Q: The p-value of the heterogeneity test
 
-g: The overall effect size for all studies
+g: The summary effect size for all studies
 
-se: The standard error of the overall effect size
+se: The standard error of the summary effect size
 
-zval: The test statistic of the overall effect sie
+zval: The test statistic of the summary effect size
 
-pval: The p-value for the test statistic of the overall effect size
+pval: The p-value of the test statistic of the summary effect size
 
-ci.lb: The lower bound of the confidence interval for the overall effect size
+ci.lb: The lower bound of the confidence interval for the summary effect size
 
-ci.ub: The upper bound of the confidence interval for the overall effect size
+ci.ub: The upper bound of the confidence interval for the summary effect size
 
 call: The matched call
 
-If  moderator effect(s) is(are) detected, the function will return a list including the following objects:
+If  (a) moderator effect(s) is(are) detected, the function will return a \code{FEmrt} object including the following components:
 
-tree: An rpart object. The pruned tree that represents the moderator effects and interaction effects between them.
+tree: The pruned tree that represents the moderator effect(s) and interaction effect(s) between them.
 
 n: The number of the studies in each subgroup
 
@@ -61,37 +61,40 @@ pval.Qb: The p-value of the between-subgroups Q test
 
 Qw: The within-subgroup Q-statistic in each subgroup
 
-g: The subgroup overall effect sizes, based on Hedges'g
+g: The subgroup summary effect size, based on Hedges'g
 
-se: The standard errors of subgroup overall effect sizes
+se: The standard error of the subgroup summary effect size
 
-zval: The test statistics of the subgroup overall effect sizes
+zval: The test statistic of the subgroup summary effect size
 
-pval: The p-value for the test statistics of the subgroup overall effect sizes
+pval: The p-value for the test statistics of the subgroup summary effect size
 
-ci.lb: The lower bounds of the confidence intervals
+ci.lb: The lower bound of the confidence interval
 
-ci.ub: The upper bounds of the confidence intervals
+ci.ub: The upper bound of the confidence interval
 
 call: The matched call
 }
 \description{
-A function to fit FE meta-trees to meta-analytic data.
-The model is assuming fixed effect within subgroups and between subgroups.
-The tree growing process is equivalent to the approach described in Li et al.(2017) using fixed effect weights in rpart (Therneau, Atkinson & Ripley)
+A function to fit fixed effect meta-trees to meta-analytic data.
+The model is assuming a fixed effect within subgroups and between subgroups.
+The tree growing process is equivalent to the approach described in Li et al.(2017) using fixed effect weights in the function \pkg{rpart()} developed by Therneau, Atkinson & Ripley (2014).
 }
 \examples{
-data(dat.BCT2015)
-FEtree <- FEmrt(g ~ T1 + T2+ T4 +T25, vi = vi, data = dat.BCT2015, c=0.5)
+data(dat.BCT2009)
+FEtree <- FEmrt(g ~ T1 + T2+ T4 +T25, vi = vi, data = dat.BCT2009, c=0.5)
 print(FEtree)
 summary(FEtree)
 plot(FEtree)
 }
 \references{
 Dusseldorp, E., van Genugten, L., van Buuren, S., Verheijden, M. W., & van Empe-
-len, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from meta-cart analysis. Health Psychology, 33 (12), 1530-1540. doi:
+len, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from meta-cart analysis.  \emph{Health Psychology, 33 (12)}, 1530-1540. doi:
      10.1037/hea0000018.
 
-Li, X., Dusseldorp, E., & Meulman, J. J. (2016). Meta-cart: A tool to identify interactions
-between moderators in meta-analysis. British Journal of Mathematical and Statistical Psychology. In press. doi: 10.1111/bmsp.12088.
+Li, X., Dusseldorp, E., & Meulman, J. J. (2017). Meta-CART: A tool to identify interactions between moderators in meta???analysis. \emph{ British Journal of Mathematical and Statistical Psychology, 70(1)}, 118-136. doi: 10.1111/bmsp.12088.
+Therneau, T., Atkinson, B., & Ripley, B. (2014) rpart: Recursive partitioning and regression trees. R package version, 4-1.
+}
+\seealso{
+\code{\link{summary.FEmrt}}, \code{\link{plot.FEmrt}}, \code{\link{rpart}},\code{\link{rpart.control}}
 }

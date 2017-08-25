@@ -9,13 +9,12 @@
 \arguments{
 \item{x}{A REmrt object.}
 
-\item{...}{Arguements that pass}
+\item{...}{Additional arguments to pass.}
 }
 \description{
 Plot function for a \code{REmrt} object. The plot shows the result of \code{REmrt}.
 The plot function uses the plot method from the package \pkg{ggplot2}
 }
 \details{
-For categorical variables we recommend to use short names for levels to avoid overlapping
-labels at split points.
+For categorical variables we recommend to use short names for levels to avoid overlapping labels at split points.
 }

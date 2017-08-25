@@ -9,7 +9,7 @@
 #' @usage data(SimData)
 #'
 #' @keywords simulated datasets
-#' @format A data frame of 80 studies with 6 moderators
+#' @format A data frame of 120 studies with 5 moderators
 #' \itemize{
 #'   \item efk: The effect size of each study
 #'   \item vark: The sampling variance of each study
@@ -20,19 +20,22 @@
 
 
 
-#' A subset of meta-analytic data set in Michie et al. (2015)
+#' A subset of data from Michie et al. (2009)
 #'
 #' The complete data consist of 101 studies reporting 122 interventions targeted at physical activity and healthy eating.
 #' In this subset of the data, the interventions that include at least one
 #' of the motivation-enhancing BCTs were selected (N = 106).
 #'
-#' @name  dat.BCT2015
+#' @name  dat.BCT2009
 #' @docType data
+#' @details IMPORANT: for questions about these data contact Xinru Li: x.li@math.leidenuniv.nl.
+#' @references If you use these data, please refer to: Michie, S., Abraham, C., Whittington, C., McAteer, J., & Gupta, S. (2009). Effective techniques in healthy eating and physical activity interventions: a meta-regression. \emph{Health Psychology, 28(6)}, 690.
+#' An application of (an pre-liminary version of) meta-CART to this data set is given in: Dusseldorp, E., Van Genugten, L., van Buuren, S., Verheijden, M. W., & van Empelen, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from Meta-CART analysis. \emph{Health Psychology, 33(12)}, 1530.
 #'
-#' @usage data(dat.BCT2015)
+#' @usage data(dat.BCT2009)
 #'
 #' @keywords data
-#' @format A data frame of 106 interventions with five motivation-enhancing BCTs
+#' @format A data frame of 106 interventions with five motivation-enhancing behavior change techniques (BCTs).
 #' \itemize{
 #'   \item study: The name of the intervention.
 #'   \item g: The effect size of each intervention.
@@ -55,4 +58,4 @@
 #'
 #'
 #'   }
-"dat.BCT2015"
+"dat.BCT2009"

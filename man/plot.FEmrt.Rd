@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{A FEmrt object.}
 
-\item{...}{Arguements that pass to prp()}
+\item{...}{Arguments that pass to prp()}
 }
 \description{
 Plot function for a \code{FEmrt} object. The plot shows the result of \code{FEmrt}.

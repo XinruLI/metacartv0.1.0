@@ -2,25 +2,25 @@
 % Please edit documentation in R/REtree.R
 \name{REmrt}
 \alias{REmrt}
-\title{A function to fit random effects RE meta-tree}
+\title{Random effects meta-tree}
 \usage{
 REmrt(formula, data, vi, c = 1, maxL = 10L, minsplit = 2L, delQ = 0.001,
   n.fold = 10, ...)
 }
 \arguments{
-\item{formula}{A formula, with a response variable (usually the effect size) and the interested moderators but no interaction terms.}
+\item{formula}{A formula, with a response variable (usually the effect size) and the potential moderator variables but no interaction terms.}
 
-\item{data}{A data frame of a meta-analytic data set, including the effect sizes, sampling variance, and the potential moderators.}
+\item{data}{A data frame of a meta-analytic data set, including the study effect sizes, sampling variance, and the potential moderators.}
 
-\item{vi}{The column name of the sampling variance in the data set.}
+\item{vi}{sampling variance of the effect size.}
 
-\item{c}{A non-negative scalar.The pruning parameter to prune the initial tree by "c-standard-error" rule.}
+\item{c}{A non-negative scalar.The pruning parameter to prune the initial tree by the "c*standard-error" rule.}
 
 \item{maxL}{the maximum number of splits}
 
-\item{minsplit}{the minimal number of studies in a parent node to be split}
+\item{minsplit}{the minimum number of studies in a parent node before splitting}
 
-\item{delQ}{the stopping rule for decrease of between-subgroups Q. Any split that does not decrease the between-subgroups Q is not attempted.}
+\item{delQ}{the stopping rule for the decrease of between-subgroups Q. Any split that does not decrease the between-subgroups Q is not attempted.}
 
 \item{n.fold}{the number of folds to perform the cross-validation}
 
@@ -37,23 +37,23 @@ df: The degree of freedoms of the heterogeneity test
 
 pval.Q: The p-value for the heterogeneity test
 
-g: The overall effect size for all studies
+g: The summary effect size for all studies (i.e., the overall effect size)
 
-se: The standard error of the overall effect size
+se: The standard error of the summary effect size
 
-zval: The test statistic of the overall effect sie
+zval: The test statistic of the summary effect size
 
-pval: The p-value for the test statistic of the overall effect size
+pval: The p-value for the test statistic of the summary effect size
 
-ci.lb: The lower bound of the confidence interval for the overall effect size
+ci.lb: The lower bound of the confidence interval for the summary effect size
 
-ci.ub: The upper bound of the confidence interval for the overall effect size
+ci.ub: The upper bound of the confidence interval for the summary effect size
 
 call: The matched call
 
-If  moderator effect(s) is(are) detected, the function will return a list including the following objects:
+If  (a) moderator effect(s) is(are) detected, the function will return a list including the following objects:
 
-tree: A data frame that represents the tree, with the Q-between and the tau^2 after each split.
+tree: A data frame that represents the tree, with the Q-between and the residual heterogeneity (tau^2) after each split.
 
 n: The number of the studies in each subgroup
 
@@ -61,23 +61,23 @@ moderators: the names of identified moderators
 
 Qb: The between-subgroups Q-statistic
 
-tau2: The estimate for the residual heterogeneity
+tau2: The estimate of the residual heterogeneity
 
-df: The degree of freedoms of the between-subgroups Q test
+df: The degrees of freedom of the between-subgroups Q test
 
 pval.Qb: The p-value of the between-subgroups Q test
 
-g: The subgroup overall effect sizes, based on Hedges'g
+g: The subgroup summary effect size, based on Hedges'g
 
-se: The standard errors of subgroup overall effect sizes
+se: The standard error of subgroup summary effect size
 
-zval: The test statistics of the subgroup overall effect sizes
+zval: The test statistic of the subgroup summary effect size
 
-pval: The p-value for the test statistics of the subgroup overall effect sizes
+pval: The p-value of the test statistic of the subgroup summary effect size
 
-ci.lb: The lower bounds of the confidence intervals
+ci.lb: The lower bound of the confidence interval
 
-ci.ub: The upper bounds of the confidence intervals
+ci.ub: The upper bound of the confidence interval
 
 call: The matched call
 
@@ -86,10 +86,13 @@ cv.res: The cross-validation table
 data: the data set subgrouped by the fitted tree
 }
 \description{
-A function to fit random effects RE meta-tree
+A function to fit a random effects meta-tree
 }
 \examples{
-data(dat.BCT2015)
-REtree <- REmrt(g ~ T1 + T2+ T4 +T25, vi = vi, data = dat.BCT2015, c = 0)
-print(REtree)
+data(dat.BCT2009)
+REtree <- REmrt(g ~ T1 + T2+ T4 +T25, vi = vi, data = dat.BCT2009, c = 0)
+summary(REtree)
+}
+\seealso{
+\code{\link{summary.REmrt}}, \code{\link{plot.REmrt}}
 }

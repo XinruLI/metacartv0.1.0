@@ -8,7 +8,7 @@
 #' labels at split points.
 #' @method plot FEmrt
 #' @param x A FEmrt object.
-#' @param ... Arguements that pass to prp()
+#' @param ... Arguments that pass to prp()
 #' @importFrom rpart.plot prp
 #' @export
 plot.FEmrt <- function(x, ...){

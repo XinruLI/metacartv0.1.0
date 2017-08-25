@@ -4,7 +4,7 @@
 \name{SimData}
 \alias{SimData}
 \title{A simulated meta-analytic data set}
-\format{A data frame of 80 studies with 6 moderators
+\format{A data frame of 120 studies with 5 moderators
 \itemize{
   \item efk: The effect size of each study
   \item vark: The sampling variance of each study

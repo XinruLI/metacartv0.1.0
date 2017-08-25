@@ -3,11 +3,10 @@
 #' Plot function for a \code{REmrt} object. The plot shows the result of \code{REmrt}.
 #' The plot function uses the plot method from the package \pkg{ggplot2}
 #'
-#' For categorical variables we recommend to use short names for levels to avoid overlapping
-#' labels at split points.
+#' For categorical variables we recommend to use short names for levels to avoid overlapping labels at split points.
 #' @method plot REmrt
 #' @param x A REmrt object.
-#' @param ... Arguements that pass
+#' @param ... Additional arguments to pass.
 #' @import ggplot2
 #' @import gridExtra
 #' @export
