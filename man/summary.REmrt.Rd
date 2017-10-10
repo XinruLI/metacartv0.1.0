@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.R
 \name{summary.REmrt}
 \alias{summary.REmrt}
-\title{Summary the results of a RE meta-tree object}
+\title{Summary of the results of a RE meta-tree object}
 \usage{
 \method{summary}{REmrt}(object, digits = 3, ...)
 }
@@ -14,7 +14,7 @@
 \item{\dots}{additional arguments to be passed.}
 }
 \description{
-Summary the results of a RE meta-tree object
+Summary of the results of a RE meta-tree object
 }
 \details{
 If no moderator effect is detected,

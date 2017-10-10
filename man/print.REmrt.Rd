@@ -15,7 +15,7 @@
 Print the results of a REmrt object
 }
 \details{
-The function returns the objects concerning the analysis results.
+The function returns the results (e.g., the value of the Q-between) after each split of the tree.
 }
 \examples{
 data(SimData)

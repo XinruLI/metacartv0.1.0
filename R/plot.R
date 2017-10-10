@@ -6,6 +6,9 @@
 #'
 #' For categorical variables we recommend to use short names for levels to avoid overlapping
 #' labels at split points.
+#'
+#' For each split of the tree it holds that if the condition (in the parent node) is satisfied,
+#  then the study goes to the left node and if not it goes to the right node
 #' @method plot FEmrt
 #' @param x A FEmrt object.
 #' @param ... Arguments that pass to prp()

@@ -35,7 +35,7 @@ print.FEmrt<- function(x, ...){
     cat("\n")
     cat("The moderators are ", paste(as.character(x$moderators), collapse = ", "), sep = "")
     cat("\n")
-    cat("use summary() and plot() to see the moderator analysis results and the tree structure")
+    cat("Use summary() and plot() to inspect the moderator analysis results and the tree structure.")
     cat("\n")
     print(x$tree)
   }
@@ -49,7 +49,7 @@ print.FEmrt<- function(x, ...){
 #' @param x fitted tree of class \code{FEmrt}.
 #' @param \dots additional arguments to be passed.
 #' @details
-#' The function returns the objects concerning the analysis results.
+#' The function returns the results (e.g., the value of the Q-between) after each split of the tree.
 #'
 #' @examples data(SimData)
 #' test <- REmrt(efk~m1+m2+m3+m4+m5, vark, data=SimData, c= 0.5)
@@ -58,7 +58,7 @@ print.FEmrt<- function(x, ...){
 print.REmrt<- function(x, ...){
   if (length(x$n) < 2) {
     cat("\n")
-    cat("Random Effectss Meta-Tree (K = ", sum(x$n), " studies); ",
+    cat("Random Effects Meta-Tree (K = ", sum(x$n), " studies); ",
         sep = "")
     cat("\n")
     print(x$call)
@@ -70,7 +70,7 @@ print.REmrt<- function(x, ...){
 
   } else {
     cat("\n")
-    cat("Random Effectss Meta-tree (K = ", sum(x$n), " studies); ",
+    cat("Random Effects Meta-tree (K = ", sum(x$n), " studies); ",
         sep = "")
     cat("\n")
     print(x$call)

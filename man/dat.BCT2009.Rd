@@ -8,7 +8,7 @@
 \itemize{
   \item study: The name of the intervention.
   \item g: The effect size of each intervention.
-  \item vi: The sampling variance of each study.
+  \item vi: The sampling variance of the effect size.
   \item T1: Indicating whether the BCT1 "Provide information about
   behavior-health link" was used by the intervention. "1" for used
   and "0" for not used.
@@ -40,6 +40,7 @@ IMPORANT: for questions about these data contact Xinru Li: x.li@math.leidenuniv.
 }
 \references{
 If you use these data, please refer to: Michie, S., Abraham, C., Whittington, C., McAteer, J., & Gupta, S. (2009). Effective techniques in healthy eating and physical activity interventions: a meta-regression. \emph{Health Psychology, 28(6)}, 690.
+
 An application of (an pre-liminary version of) meta-CART to this data set is given in: Dusseldorp, E., Van Genugten, L., van Buuren, S., Verheijden, M. W., & van Empelen, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from Meta-CART analysis. \emph{Health Psychology, 33(12)}, 1530.
 }
 \keyword{data}

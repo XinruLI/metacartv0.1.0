@@ -1,6 +1,6 @@
 #' Summary function for metacart
 #'
-#' Summary the results of a FE meta-tree object
+#' Summary of the results of a FE meta-tree object
 #'
 #' @param object fitted tree of class \code{FEmrt}.
 #' @param digits specified number of decimals in the printed results.
@@ -44,7 +44,7 @@ summary.FEmrt <- function(object, digits = 3, ...){
 
     } else {
       cat("\n")
-      cat("Fixed Effects Meta-tree (K = ", sum(object$n), " studies); ",
+      cat("Fixed Effects meta-tree (K = ", sum(object$n), " studies); ",
           sep = "")
       cat("\n")
       print(object$call)
@@ -68,6 +68,7 @@ summary.FEmrt <- function(object, digits = 3, ...){
                          sig)
       colnames(res.table) <- c( "K", "Qw", "g", "se", "zval",  "pval",
                                 "ci.lb", "ci.ub", " ")
+      rownames(res.table) <- rownames(object$tree$frame[object$tree$frame$var == "<leaf>", ])
       print(res.table, quote = FALSE, right = TRUE, ...)
       cat("---\nSignif. codes: ", attr(sig, "legend"), "\n\n")
     }
@@ -76,7 +77,7 @@ summary.FEmrt <- function(object, digits = 3, ...){
 }
 
 
-#' Summary the results of a RE meta-tree object
+#' Summary of the results of a RE meta-tree object
 #'
 #' @param object fitted tree of class \code{REmrt}.
 #' @param digits specified number of decimals in the printed results.
@@ -94,7 +95,7 @@ summary.REmrt <- function(object, digits = 3, ...){
   } else {
     if (length(object$n) == 1) {
       cat("\n")
-      cat("Random Effectss meta-tree (K = ", sum(object$n), " studies); ",
+      cat("Random Effects meta-tree (K = ", sum(object$n), " studies); ",
           sep = "")
       cat("\n")
       print(object$call)
@@ -123,7 +124,7 @@ summary.REmrt <- function(object, digits = 3, ...){
 
     } else {
       cat("\n")
-      cat("Random Effectss Meta-tree (K = ", sum(object$n), " studies); ",
+      cat("Random Effects meta-tree (K = ", sum(object$n), " studies); ",
           sep = "")
       cat("\n")
       print(object$call)

@@ -14,7 +14,7 @@
 \item{\dots}{additional arguments to be passed.}
 }
 \description{
-Summary the results of a FE meta-tree object
+Summary of the results of a FE meta-tree object
 }
 \details{
 If no moderator effect is detected,
