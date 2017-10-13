@@ -70,15 +70,15 @@ treepruner <- function(tree, c, ...){
 #' @return ci.ub: The upper bound of the confidence interval
 #' @return call: The matched call
 #' @examples data(dat.BCT2009)
-#' FEtree <- FEmrt(g ~ T1 + T2+ T4 +T25, vi = vi, data = dat.BCT2009, c=0.5)
+#' FEtree <- FEmrt(g ~ T1 + T2+ T4 + T25, vi = vi, data = dat.BCT2009, c=0.5)
 #' print(FEtree)
 #' summary(FEtree)
 #' plot(FEtree)
-#' @references Dusseldorp, E., van Genugten, L., van Buuren, S., Verheijden, M. W., & van Empe-
-#' len, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from meta-cart analysis.  \emph{Health Psychology, 33 (12)}, 1530-1540. doi:
+#' @references Dusseldorp, E., van Genugten, L., van Buuren, S., Verheijden, M. W., & van Empelen, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from meta-cart analysis.  \emph{Health Psychology, 33 (12)}, 1530-1540. doi:
 #'      10.1037/hea0000018.
-#' @references Li, X., Dusseldorp, E., & Meulman, J. J. (2017). Meta-CART: A tool to identify interactions between moderators in meta???analysis. \emph{ British Journal of Mathematical and Statistical Psychology, 70(1)}, 118-136. doi: 10.1111/bmsp.12088.
-#' Therneau, T., Atkinson, B., & Ripley, B. (2014) rpart: Recursive partitioning and regression trees. R package version, 4-1.
+#' @references Li, X., Dusseldorp, E., & Meulman, J. J. (2017). Meta-CART: A tool to identify interactions between moderators in meta-analysis. \emph{ British Journal of Mathematical and Statistical Psychology, 70(1)}, 118-136. doi: 10.1111/bmsp.12088.
+#'
+#' @references Therneau, T., Atkinson, B., & Ripley, B. (2014) rpart: Recursive partitioning and regression trees. R package version, 4-1.
 #' @seealso  \code{\link{summary.FEmrt}}, \code{\link{plot.FEmrt}}, \code{\link{rpart}},\code{\link{rpart.control}}
 #' @importFrom rpart rpart.control
 #' @importFrom rpart rpart
@@ -124,7 +124,7 @@ FEmrt <- function(formula, data, vi, subset, c = 1,
 
     res <- list(n = n ,  Q = Q,
                 df = df, pval.Q = pval.Q, g = g, se = se, zval = zval,
-                pval = pval, ci.lb = ci.lb, ci.ub = ci.ub, call = Call, cv.res = tree$cptable)
+                pval = pval, ci.lb = ci.lb, ci.ub = ci.ub, call = Call, cv.res = tree$cptable, data = m)
   } else {
     y <- model.response(m)
     v <- c(t(m["(vi)"]))
@@ -143,7 +143,7 @@ FEmrt <- function(formula, data, vi, subset, c = 1,
     mod.names <- unique(prunedtree$frame$var[prunedtree$frame$var != "<leaf>"])
     res <- list(tree =  prunedtree, n = n, moderators =  mod.names, Qb = Qb, df = df, pval.Qb = pval.Qb,
                 Qw = Qw, g = g, se = se, zval =zval, pval = pval, ci.lb = ci.lb,
-                ci.ub = ci.ub, call = Call, cv.res = tree$cptable)
+                ci.ub = ci.ub, call = Call, cv.res = tree$cptable, data = m)
 
 
   }

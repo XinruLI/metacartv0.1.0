@@ -82,17 +82,17 @@ The tree growing process is equivalent to the approach described in Li et al.(20
 }
 \examples{
 data(dat.BCT2009)
-FEtree <- FEmrt(g ~ T1 + T2+ T4 +T25, vi = vi, data = dat.BCT2009, c=0.5)
+FEtree <- FEmrt(g ~ T1 + T2+ T4 + T25, vi = vi, data = dat.BCT2009, c=0.5)
 print(FEtree)
 summary(FEtree)
 plot(FEtree)
 }
 \references{
-Dusseldorp, E., van Genugten, L., van Buuren, S., Verheijden, M. W., & van Empe-
-len, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from meta-cart analysis.  \emph{Health Psychology, 33 (12)}, 1530-1540. doi:
+Dusseldorp, E., van Genugten, L., van Buuren, S., Verheijden, M. W., & van Empelen, P. (2014). Combinations of techniques that effectively change health behavior: Evidence from meta-cart analysis.  \emph{Health Psychology, 33 (12)}, 1530-1540. doi:
      10.1037/hea0000018.
 
-Li, X., Dusseldorp, E., & Meulman, J. J. (2017). Meta-CART: A tool to identify interactions between moderators in meta???analysis. \emph{ British Journal of Mathematical and Statistical Psychology, 70(1)}, 118-136. doi: 10.1111/bmsp.12088.
+Li, X., Dusseldorp, E., & Meulman, J. J. (2017). Meta-CART: A tool to identify interactions between moderators in meta-analysis. \emph{ British Journal of Mathematical and Statistical Psychology, 70(1)}, 118-136. doi: 10.1111/bmsp.12088.
+
 Therneau, T., Atkinson, B., & Ripley, B. (2014) rpart: Recursive partitioning and regression trees. R package version, 4-1.
 }
 \seealso{

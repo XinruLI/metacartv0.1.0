@@ -65,7 +65,7 @@ print.REmrt<- function(x, ...){
     cat("\n")
     cat("No moderator effect was detected" )
     cat("\n")
-    cat("use summary() to see the meta-analysis results")
+    cat("Use summary() to inspect the meta-analysis results")
 
 
   } else {
