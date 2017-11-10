@@ -71,10 +71,11 @@ REmrt.prednode <- function(x, newdata){
 #' @param maxL the maximum number of splits
 #' @param minisplit the minimal number of studies in a parent node to be split
 #' @param delQ the stopping rule for decrease of between-subgroups Q. Any split that does not decrease the between-subgroups Q is not attempted.
+#' @param minbucket the minimum number of the studies in a terminal node
 #' @return a list including a tree, the split points, the data, and the nodes after each split
 #' @importFrom stats terms model.response
 #' @keywords internal
-REmrt.fit1<- function(mf, maxL, minsplit = 2, delQ = 0.001){
+REmrt.fit1<- function(mf, maxL, minsplit, delQ, minbucket){
   y <- model.response(mf)
   vi <- c(t(mf["(vi)"]))
   mods.names <-  labels(terms(mf))
@@ -108,8 +109,13 @@ REmrt.fit1<- function(mf, maxL, minsplit = 2, delQ = 0.001){
               for (g in 1:(length(cpoints)-1)) {
                 cnode.test <- cnode
                 cnode.test[pleaf.inx] <- ifelse( cmod.ordinal <= cpoints[g], 2*i, 2*i+1)
-                temp <- rebetQ(y, vi, mods = as.factor(cnode.test))
-                if (temp[1] > Dev) {
+                if (min(table(cnode.test[pleaf.inx])) <= minbucket) {
+                  Dev.new <- -Inf
+                } else {
+                  temp <- rebetQ(y, vi, mods = as.factor(cnode.test))
+                  Dev.new <- temp[1]
+                }
+                if (Dev.new > Dev) {
                   Dev <- temp[1]
                   msplit <- paste(mods.names[k], "=", paste(names(mod.order[mod.order <= cpoints[g]]), collapse = "/"), collapse = " ")
                   tres <- data.frame(Qb = temp[1], tau2 = temp[2],
@@ -126,8 +132,13 @@ REmrt.fit1<- function(mf, maxL, minsplit = 2, delQ = 0.001){
               for (g in 1:(length(cpoints)-1)) {
                 cnode.test <- cnode
                 cnode.test[pleaf.inx] <- ifelse( chosenmod <= cpoints[g], 2*i, 2*i+1)
-                temp <- rebetQ(y, vi, mods = as.factor(cnode.test))
-                if (temp[1] > Dev) {
+                if (min(table(cnode.test[pleaf.inx])) <= minbucket) {
+                  Dev.new <- -Inf
+                } else {
+                  temp <- rebetQ(y, vi, mods = as.factor(cnode.test))
+                  Dev.new <- temp[1]
+                }
+                if (Dev.new > Dev) {
                   Dev <- temp[1]
                   tcpt <- cpoints[g]
                   msplit <- paste(mods.names[k], "<=", tcpt, collapse = " ")
@@ -161,10 +172,11 @@ REmrt.fit1<- function(mf, maxL, minsplit = 2, delQ = 0.001){
 #'
 #' @param mf the data.frame to grow the tree
 #' @param maxL the maximum number of splits
+#' @param minbucket the minimum number of the studies in a terminal node
 #' @return a list including a tree, the split points, the data, and the nodes after each split
 #' @keywords internal
 #' @importFrom stats terms
-REmrt.fit0<- function(mf, maxL){
+REmrt.fit0<- function(mf, maxL, minbucket){
   y <- model.response(mf)
   vi <- c(t(mf["(vi)"]))
   mods.names <-  labels(terms(mf))
@@ -195,8 +207,13 @@ REmrt.fit0<- function(mf, maxL){
             for (g in 1:(length(cpoints)-1)) {
               cnode.test <- cnode
               cnode.test[pleaf.inx] <- ifelse( cmod.ordinal <= cpoints[g], 2*i, 2*i+1)
-              temp <- rebetQ(y, vi, mods = as.factor(cnode.test))
-              if (temp[1] > Dev) {
+              if (min(table(cnode.test[pleaf.inx])) <= minbucket) {
+                Dev.new <- -Inf
+              } else {
+                temp <- rebetQ(y, vi, mods = as.factor(cnode.test))
+                Dev.new <- temp[1]
+              }
+              if (Dev.new > Dev) {
                 Dev <- temp[1]
                 msplit <- paste(mods.names[k], "=", paste(names(mod.order[mod.order <= cpoints[g]]), collapse = "/"), collapse = " ")
                 tres <- data.frame(Qb = temp[1], tau2 = temp[2],
@@ -213,13 +230,21 @@ REmrt.fit0<- function(mf, maxL){
             for (g in 1:(length(cpoints)-1)) {
               cnode.test <- cnode
               cnode.test[pleaf.inx] <- ifelse( chosenmod <= cpoints[g], 2*i, 2*i+1)
-              temp <- rebetQ(y, vi, mods = as.factor(cnode.test))
-              if (temp[1] > Dev) {
+              if (min(table(cnode.test[pleaf.inx])) <= minbucket) {
+                Dev.new <- -Inf
+              } else {
+                temp <- rebetQ(y, vi, mods = as.factor(cnode.test))
+                Dev.new <- temp[1]
+              }
+
+
+              if (Dev.new > Dev) {
                 Dev <- temp[1]
                 tcpt <- cpoints[g]
                 msplit <- paste(mods.names[k], "<=", tcpt, collapse = " ")
                 tres <- data.frame(Qb = temp[1], tau2 = temp[2], split = msplit, mod = mods.names[k], pleaf = as.numeric(nodes[j]))
                 tnode <- cnode.test
+
               }
             }
           }
@@ -227,6 +252,7 @@ REmrt.fit0<- function(mf, maxL){
 
       }
     }
+
     if (is.null(tres)) {
       break
     } else {
@@ -246,10 +272,11 @@ REmrt.fit0<- function(mf, maxL){
 #' @param mf the data.frame to grow the tree
 #' @param maxL the maximum number of splits
 #' @param n.fold the number of folds to perform the cross-validation
+#' @param minbucket the minimum number of the studies in a terminal node
 #' @return a cp table
 #' @importFrom stats model.response
 #' @keywords internal
-REmrt.xvalid <- function(mf, maxL, n.fold = 10){
+REmrt.xvalid <- function(mf, maxL, n.fold, minbucket){
   N <- nrow(mf)
   if (n.fold > N | n.fold <=1 ) stop("n.fold is not acceptable")
   if (maxL > N) {
@@ -263,7 +290,7 @@ REmrt.xvalid <- function(mf, maxL, n.fold = 10){
     inx.test <- inx[inx.xvalid[i]:(inx.xvalid[i+1]-1)]
     test <- mf[inx.test, ]
     train <- mf[-inx.test, ]
-    fit.train <- REmrt.fit0(train, maxL = maxL)
+    fit.train <- REmrt.fit0(train, maxL = maxL, minbucket = minbucket)
     yi.train <- model.response(fit.train$data)
     vi.train <- c(t(fit.train$data["(vi)"]))
     nsplt <- nrow(fit.train$tree)

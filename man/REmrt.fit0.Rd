@@ -4,12 +4,14 @@
 \alias{REmrt.fit0}
 \title{A function to fit the tree for cross-validation}
 \usage{
-REmrt.fit0(mf, maxL)
+REmrt.fit0(mf, maxL, minbucket)
 }
 \arguments{
 \item{mf}{the data.frame to grow the tree}
 
 \item{maxL}{the maximum number of splits}
+
+\item{minbucket}{the minimum number of the studies in a terminal node}
 }
 \value{
 a list including a tree, the split points, the data, and the nodes after each split

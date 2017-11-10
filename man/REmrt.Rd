@@ -5,7 +5,7 @@
 \title{Random effects meta-tree}
 \usage{
 REmrt(formula, data, vi, c = 1, maxL = 10L, minsplit = 2L, delQ = 0.001,
-  n.fold = 10, ...)
+  minbucket = 3, n.fold = 10, ...)
 }
 \arguments{
 \item{formula}{A formula, with a response variable (usually the effect size) and the potential moderator variables but no interaction terms.}
@@ -21,6 +21,8 @@ REmrt(formula, data, vi, c = 1, maxL = 10L, minsplit = 2L, delQ = 0.001,
 \item{minsplit}{the minimum number of studies in a parent node before splitting}
 
 \item{delQ}{the stopping rule for the decrease of between-subgroups Q. Any split that does not decrease the between-subgroups Q is not attempted.}
+
+\item{minbucket}{the minimum number of the studies in a terminal node}
 
 \item{n.fold}{the number of folds to perform the cross-validation}
 

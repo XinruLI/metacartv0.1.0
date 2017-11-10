@@ -4,7 +4,7 @@
 \alias{REmrt.xvalid}
 \title{A function to perform cross-validation for RE meta-tree}
 \usage{
-REmrt.xvalid(mf, maxL, n.fold = 10)
+REmrt.xvalid(mf, maxL, n.fold, minbucket)
 }
 \arguments{
 \item{mf}{the data.frame to grow the tree}
@@ -12,6 +12,8 @@ REmrt.xvalid(mf, maxL, n.fold = 10)
 \item{maxL}{the maximum number of splits}
 
 \item{n.fold}{the number of folds to perform the cross-validation}
+
+\item{minbucket}{the minimum number of the studies in a terminal node}
 }
 \value{
 a cp table

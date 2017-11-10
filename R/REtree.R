@@ -11,6 +11,7 @@
 #' @param minsplit the minimum number of studies in a parent node before splitting
 #' @param delQ the stopping rule for the decrease of between-subgroups Q. Any split that does not decrease the between-subgroups Q is not attempted.
 #' @param n.fold the number of folds to perform the cross-validation
+#' @param minbucket the minimum number of the studies in a terminal node
 #' @param ... Additional arguments to be passed.
 #' @return If no moderator effect is detected, the function will return a list including the following objects:
 #' @return n: The total number of the studies
@@ -48,7 +49,7 @@
 #' @seealso \code{\link{summary.REmrt}}, \code{\link{plot.REmrt}}
 #' @export
 
-REmrt <- function(formula, data, vi, c = 1, maxL = 10L, minsplit = 2L, delQ = 0.001, n.fold = 10, ...){
+REmrt <- function(formula, data, vi, c = 1, maxL = 5L, minsplit = 2L, delQ = 0.001, minbucket = 3, n.fold = 10, ...){
   Call <- match.call()
   indx <- match(c("formula", "data", "vi"),
                 names(Call), nomatch = 0L)
@@ -59,7 +60,7 @@ REmrt <- function(formula, data, vi, c = 1, maxL = 10L, minsplit = 2L, delQ = 0.
   temp <- Call[c(1L, indx)]
   temp[[1L]] <- quote(stats::model.frame)
   mf <- eval.parent(temp)
-  cv.res <- REmrt.xvalid(mf, maxL = maxL, n.fold = n.fold)
+  cv.res <- REmrt.xvalid(mf, maxL = maxL, n.fold = n.fold, minbucket = minbucket)
   mindex <- which.min(cv.res[, 1])
   cp.minse <- cv.res[mindex,1] + c*cv.res[mindex,2]
   cp.row <- min(which(cv.res[,1]<= cp.minse))
@@ -91,7 +92,7 @@ REmrt <- function(formula, data, vi, c = 1, maxL = 10L, minsplit = 2L, delQ = 0.
   } else{
     y <- model.response(mf)
     vi <- c(t(mf["(vi)"]))
-    res <- REmrt.fit1(mf, maxL = cp.row - 1, minsplit = minsplit, delQ = delQ)
+    res <- REmrt.fit1(mf, maxL = cp.row - 1, minsplit = minsplit, delQ = delQ, minbucket = minbucket)
     depth <- nrow(res$tree)
     tau2 <- res$tree$tau2[depth]
     vi.star <- vi + tau2
@@ -110,10 +111,10 @@ REmrt <- function(formula, data, vi, c = 1, maxL = 10L, minsplit = 2L, delQ = 0.
     mod.names <- unique(res$tree$mod[!is.na(res$tree$mod)])
     mf$term.node <- subnodes
     res.f<- list(tree =  res$tree, n = n, moderators =  mod.names, Qb = Qb, tau2 = tau2, df = df, pval.Qb = pval.Qb,
-         g = g, se = se, zval =zval, pval = pval, ci.lb = ci.lb,
-         ci.ub = ci.ub, call = Call, cv.res = cv.res, data = mf, cpt = res$cpt)
-   }
- class(res.f) <- "REmrt"
- res.f
+                 g = g, se = se, zval =zval, pval = pval, ci.lb = ci.lb,
+                 ci.ub = ci.ub, call = Call, cv.res = cv.res, data = mf, cpt = res$cpt)
+  }
+  class(res.f) <- "REmrt"
+  res.f
 
 }

@@ -4,7 +4,7 @@
 \alias{REmrt.fit1}
 \title{A function to grow the tree}
 \usage{
-REmrt.fit1(mf, maxL, minsplit = 2, delQ = 0.001)
+REmrt.fit1(mf, maxL, minsplit, delQ, minbucket)
 }
 \arguments{
 \item{mf}{the data.frame to grow the tree}
@@ -12,6 +12,8 @@ REmrt.fit1(mf, maxL, minsplit = 2, delQ = 0.001)
 \item{maxL}{the maximum number of splits}
 
 \item{delQ}{the stopping rule for decrease of between-subgroups Q. Any split that does not decrease the between-subgroups Q is not attempted.}
+
+\item{minbucket}{the minimum number of the studies in a terminal node}
 
 \item{minisplit}{the minimal number of studies in a parent node to be split}
 }

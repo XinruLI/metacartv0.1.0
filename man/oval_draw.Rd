@@ -20,7 +20,7 @@ oval_draw(plotobj, x, y, c, x.scale = 1, y.scale = 1, ...)
 \item{y.scale}{y.scale}
 }
 \value{
-converted string
+a ggplot object
 }
 \description{
 A function to draw an oval

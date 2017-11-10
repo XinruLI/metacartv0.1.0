@@ -136,6 +136,7 @@ FEmrt <- function(formula, data, vi, subset, c = 1,
     df <- length(unique(prunedtree$where))-1
     pval.Qb <- pchisq(Qb, df, lower.tail = FALSE)
     se <- tapply(v, prunedtree$where, function(x) sqrt(1/sum(1/x)))
+    names(se) <- rownames(treeframe)[as.numeric(names(se))]
     zval <- g/se
     pval <- pnorm(abs(zval),lower.tail=FALSE)*2
     ci.lb <- g - qnorm(0.975)*se

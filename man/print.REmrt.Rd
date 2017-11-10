@@ -19,6 +19,6 @@ The function returns the results (e.g., the value of the Q-between) after each s
 }
 \examples{
 data(SimData)
-test <- REmrt(efk~m1+m2+m3+m4+m5, vark, data=SimData, c= 0.5)
+test <- REmrt(efk~m1+m2+m3+m4+m5, vark, data = SimData, maxL = 2, c= 0.5)
 print(test)
 }
