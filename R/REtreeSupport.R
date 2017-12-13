@@ -89,6 +89,7 @@ REmrt.fit1<- function(mf, maxL, minsplit, delQ, minbucket){
   delta.Q <- Inf
   for (i in 1:maxL){
     Dev<- -Inf
+    tres <- NULL
     cnode <- nodemark[ ,i]
     # Check if the parent leaves are all smaller than the minsplit
     # and only split nodes with subjects more than the minsplit
