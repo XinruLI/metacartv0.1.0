@@ -4,8 +4,8 @@
 \alias{REmrt}
 \title{Random effects meta-tree}
 \usage{
-REmrt(formula, data, vi, c = 1, maxL = 10L, minsplit = 2L, delQ = 0.001,
-  minbucket = 3, n.fold = 10, ...)
+REmrt(formula, data, vi, c = 1, maxL = 5L, minsplit = 2L, delQ = 0.001,
+  minbucket = 3, n.fold = 10, lookahead = FALSE, ...)
 }
 \arguments{
 \item{formula}{A formula, with a response variable (usually the effect size) and the potential moderator variables but no interaction terms.}
@@ -25,6 +25,8 @@ REmrt(formula, data, vi, c = 1, maxL = 10L, minsplit = 2L, delQ = 0.001,
 \item{minbucket}{the minimum number of the studies in a terminal node}
 
 \item{n.fold}{the number of folds to perform the cross-validation}
+
+\item{lookahead}{an argument indicating whether to apply the "look-ahead" strategy when fitting the tree}
 
 \item{...}{Additional arguments to be passed.}
 }

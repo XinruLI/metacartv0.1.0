@@ -12,6 +12,7 @@
 #' @param delQ the stopping rule for the decrease of between-subgroups Q. Any split that does not decrease the between-subgroups Q is not attempted.
 #' @param n.fold the number of folds to perform the cross-validation
 #' @param minbucket the minimum number of the studies in a terminal node
+#' @param lookahead an argument indicating whether to apply the "look-ahead" strategy when fitting the tree
 #' @param ... Additional arguments to be passed.
 #' @return If no moderator effect is detected, the function will return a list including the following objects:
 #' @return n: The total number of the studies
@@ -49,7 +50,7 @@
 #' @seealso \code{\link{summary.REmrt}}, \code{\link{plot.REmrt}}
 #' @export
 
-REmrt <- function(formula, data, vi, c = 1, maxL = 5L, minsplit = 2L, delQ = 0.001, minbucket = 3, n.fold = 10, ...){
+REmrt <- function(formula, data, vi, c = 1, maxL = 5L, minsplit = 2L, delQ = 0.001, minbucket = 3, n.fold = 10, lookahead = FALSE, ...){
   Call <- match.call()
   indx <- match(c("formula", "data", "vi"),
                 names(Call), nomatch = 0L)
@@ -57,10 +58,15 @@ REmrt <- function(formula, data, vi, c = 1, maxL = 5L, minsplit = 2L, delQ = 0.0
     stop("a 'formula' argument is required")
   if (indx[3] == 0L)
     stop("The sampling variances need to be specified")
+  if (!is.logical(lookahead))
+    stop("The 'lookahead' argument needs to be a logical value")
+  if (maxL < 2 & (lookahead == TRUE) )
+    stop("The 'maxL' should be at least 2 when applying look-ahead strategy")
   temp <- Call[c(1L, indx)]
   temp[[1L]] <- quote(stats::model.frame)
   mf <- eval.parent(temp)
-  cv.res <- REmrt.xvalid(mf, maxL = maxL, n.fold = n.fold, minbucket = minbucket)
+  # use x-validation to decide the size of the tree
+  cv.res <- REmrt.xvalid(mf, maxL = maxL, n.fold = n.fold, minbucket = minbucket, minsplit = minsplit, delQ = delQ, lookahead = lookahead)
   mindex <- which.min(cv.res[, 1])
   cp.minse <- cv.res[mindex,1] + c*cv.res[mindex,2]
   cp.row <- min(which(cv.res[,1]<= cp.minse))
@@ -92,7 +98,7 @@ REmrt <- function(formula, data, vi, c = 1, maxL = 5L, minsplit = 2L, delQ = 0.0
   } else{
     y <- model.response(mf)
     vi <- c(t(mf["(vi)"]))
-    res <- REmrt.fit1(mf, maxL = cp.row - 1, minsplit = minsplit, delQ = delQ, minbucket = minbucket)
+    res <- REmrt.fit0(mf, maxL = cp.row - 1, minsplit = minsplit, delQ = delQ, minbucket = minbucket, lookahead = lookahead)
     depth <- nrow(res$tree)
     tau2 <- res$tree$tau2[depth]
     vi.star <- vi + tau2
