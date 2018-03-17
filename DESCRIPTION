@@ -1,7 +1,7 @@
 Package: metacart
 Type: Package
 Title: Meta-CART: A Flexible Approach to Identify Moderators in Meta-Analysis
-Version: 1.1-0
+Version: 1.1-2
 Date: 2017-10-15
 Author: Xinru Li [aut, cre], Elise Dusseldorp [aut, cph], Kaihua Liu [ctb] (supported with the plot function), Jacqueline Meulman [ctb]
 Maintainer: Xinru Li <x.li@math.leidenuniv.nl>
